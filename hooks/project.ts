@@ -108,10 +108,14 @@ export const useProject = () => {
     editProjectExecuteRequest({ name: newName, project });
 
   useEffect(() => {
-    if (editProjectData) {
+    if (editProjectData && !editProjectError) {
+      console.log("Project edit successful. Dispatching state update and refreshing page...");
       envDispatch({ type: "editProject", payload: editProjectData });
+      window.location.reload();
+    } else if (editProjectError) {
+       console.error("Error during project edit request:", editProjectError);
     }
-  }, [editProjectData]);
+  }, [editProjectData, editProjectError, envDispatch]);
 
   return {
     PROJECT_FIELDS,
